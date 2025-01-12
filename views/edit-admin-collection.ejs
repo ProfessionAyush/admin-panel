@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Admin Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+<style>
+    nav {
+        transition: transform 0.3s ease-in-out;
+    }
+</style>
+</head>
+
+<body class="bg-gray-100 flex h-screen">
+    <%- include('partials/navbar') %>
+        <div class="flex-1 p-10">
+            <div class="flex justify-between items-center">
+                <button class="menu-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="close-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="container mx-auto p-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Admin Collection</h2>
+                <form action="/edit-admin-collection/<%= data._id %>" method="POST">
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="site">Site</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="site" type="text" name="site" value="<%= data.site %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="dateOfRegistration">Date of
+                            Registration</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="dateOfRegistration" type="date" name="dateOfRegistration"
+                            value="<%= new Date(data.dateOfRegistration).toISOString().split('T')[0] %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="area">Area</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="area" type="number" name="area" value="<%= data.area %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="rate">Rate</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="rate" type="number" name="rate" value="<%= data.rate %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="totalAmount">Total
+                            Amount</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="totalAmount" type="number" name="totalAmount" value="<%= data.totalAmount %>" readonly>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="registryExpenses">Registry
+                            Expenses</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="registryExpenses" type="number" name="registryExpenses"
+                            value="<%= data.registryExpenses %>" required>
+                    </div> <!-- Development Expenses -->
+                    <h3 class="text-xl font-bold mb-4">Development Expenses</h3>
+                    <div id="developmentExpensesContainer">
+                        <% data.developmentExpenses.forEach(function(expense, index) { %>
+                            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                                    for="developmentDate<%= index %>">Date</label> <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="developmentDate<%= index %>" type="date"
+                                    name="developmentExpenses[<%= expense._id %>][date]"
+                                    value="<%= new Date(expense.date).toISOString().split('T')[0] %>" required> <label
+                                    class="block text-gray-700 text-sm font-bold mb-2"
+                                    for="developmentAmount<%= index %>">Amount</label> <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="developmentAmount<%= index %>" type="number"
+                                    name="developmentExpenses[<%= expense._id %>][amount]" value="<%= expense.amount %>"
+                                    required>
+                            </div>
+                            <% }); %>
+                    </div> <!-- Income Tax Expenses -->
+                    <h3 class="text-xl font-bold mb-4">Income Tax Expenses</h3>
+                    <div id="incomeTaxExpensesContainer">
+                        <% data.incomeTaxExpenses.forEach(function(expense, index) { %>
+                            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                                    for="incomeTaxDate<%= index %>">Date</label> <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="incomeTaxDate<%= index %>" type="date"
+                                    name="incomeTaxExpenses[<%= expense._id %>][date]"
+                                    value="<%= new Date(expense.date).toISOString().split('T')[0] %>" required> <label
+                                    class="block text-gray-700 text-sm font-bold mb-2"
+                                    for="incomeTaxAmount<%= index %>">Amount</label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="incomeTaxAmount<%= index %>" type="number"
+                                    name="incomeTaxExpenses[<%= expense._id %>][amount]" value="<%= expense.amount %>"
+                                    required>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <div class="flex items-center justify-between"> <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit"> Update Data </button> </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const areaInput = document.getElementById('area');
+            const rateInput = document.getElementById('rate');
+            const totalAmountInput = document.getElementById('totalAmount');
+            function calculateTotalAmount() {
+                const area = parseFloat(areaInput.value) || 0;
+                const rate = parseFloat(rateInput.value) || 0;
+                totalAmountInput.value = area * rate;
+            }
+            areaInput.addEventListener('input', calculateTotalAmount);
+            rateInput.addEventListener('input', calculateTotalAmount);
+
+            document.querySelector('.menu-button').addEventListener('click', () => {
+                document.querySelector('nav').classList.toggle('-translate-x-full');
+                document.querySelector('.menu-button').classList.toggle('hidden');
+                document.querySelector('.close-button').classList.toggle('hidden');
+            });
+
+            document.querySelector('.close-button').addEventListener('click', () => {
+                document.querySelector('nav').classList.toggle('-translate-x-full');
+                document.querySelector('.menu-button').classList.toggle('hidden');
+                document.querySelector('.close-button').classList.toggle('hidden');
+            });
+
+        </script>
+</body>
+
+</html>

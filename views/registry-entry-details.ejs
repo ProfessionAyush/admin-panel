@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registry Entry Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8">
+        <h2 class="text-2xl font-bold mb-4">Registry Entry Details</h2>
+        <% if (!isPDF) { %>
+        <div class="mt-6">
+            <a href="/registry-entry/details/<%= entry._id %>/download-pdf" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Download PDF
+            </a>
+        </div>
+        <% } %>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-lg font-bold mb-2">Gata No: <%= entry.gataNo %></h3>
+            <p class="mb-2"><strong>Site:</strong> <%= entry.site %></p>
+            <p class="mb-2"><strong>Seller:</strong> <%= entry.seller %></p>
+            <p class="mb-2"><strong>Purchaser:</strong> <%= entry.purchaser %></p>
+            <p class="mb-2"><strong>Mobile No:</strong> <%= entry.mobileNo %></p>
+            <p class="mb-2"><strong>Area:</strong> <%= entry.area %> sq. ft.</p>
+            <p class="mb-2"><strong>Rate:</strong> <%= entry.rate %></p>
+            <p class="mb-2"><strong>Total Amount:</strong> <%= entry.totalAmount %></p>
+            <p class="mb-2"><strong>Group Commision:</strong> <%= entry.groupCommision %></p>
+            <p class="mb-2"><strong>Balance Amount:</strong> <%= entry.balanceAmount %></p>
+       
+            <div class="mt-4">
+                <h3 class="text-lg font-bold mb-2">Images</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <% entry.imageUrl.forEach(function(image) { %>
+                        <div>
+                            <img src="/uploads/<%= image %>" alt="Image" class="w-full h-1020 object-cover">
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download PDF Button -->
+      
+    </div>
+</body>
+</html>

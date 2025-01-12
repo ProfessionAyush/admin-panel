@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Admin Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+<style>
+    nav {
+        transition: transform 0.3s ease-in-out;
+    }
+</style>
+</head>
+
+<body class="bg-gray-100 flex h-screen">
+    <%- include('partials/navbar') %>
+        <div class="flex-1 p-10">
+            <div class="flex justify-between items-center"> <button
+                    class="menu-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none"> <i
+                        class="fas fa-bars"></i> </button>
+                         <button class="close-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none hidden"> <i
+                        class="fas fa-times"></i> </button> 
+                    </div>
+            <div class="container mx-auto p-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Admin</h2>
+                <form action="/edit-admin/<%= admin._id %>" method="POST">
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="fullname">Full
+                            Name</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="fullname" type="text" name="fullname" value="<%= admin.fullname %>" required> 
+                        </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="username">Username</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="username" type="text" name="username" value="<%= admin.username %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="password">New
+                            Password</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="password" type="password" name="password">
+                        <p class="text-gray-600 text-sm mt-1">Leave blank if you don't want to change the password.</p>
+                    </div>
+                    <div class="flex items-center justify-between"> <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit"> <i class="fas fa-save mr-2"></i> Update </button> </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('.menu-button').addEventListener('click', () => {
+                document.querySelector('nav').classList.toggle('-translate-x-full');
+                document.querySelector('.menu-button').classList.toggle('hidden');
+                document.querySelector('.close-button').classList.toggle('hidden');
+            });
+
+            document.querySelector('.close-button').addEventListener('click', () => {
+                document.querySelector('nav').classList.toggle('-translate-x-full');
+                document.querySelector('.menu-button').classList.toggle('hidden');
+                document.querySelector('.close-button').classList.toggle('hidden');
+            });
+        </script>
+</body>
+
+</html>

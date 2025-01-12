@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registry Entry Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        th,
+        td {
+            font-size: 12px;
+            padding: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8">
+        <h2 class="text-2xl font-bold mb-4">Registry Entry Report</h2>
+
+        <% if (!isPDF) { %>
+            <!-- Filter Form -->
+            <form id="filterForm" class="flex items-center space-x-4 mb-4" method="GET" action="/registry-entry-report">
+                <input type="text" name="search" id="searchBar" placeholder="Search by Site"
+                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="date" name="startDate" id="startDate"
+                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="date" name="endDate" id="endDate"
+                    class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+            </form>
+
+            <!-- Download Button -->
+            <a id="downloadBtn" href="/generate-report"
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onclick="updateDownloadHref()">
+                Download PDF
+            </a>
+
+            <% } %>
+
+                <!-- Data Table -->
+                <% if (data.length> 0) { %>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Serial No</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Gata No</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date of Registration</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Site</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Seller</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Purchaser</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Mobile No</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Area</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Rate</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total Amount</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Group Commission</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Balance Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <% data.forEach(function(entry, index) { %>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.gataNo %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= new Date(entry.dateOfRegistration).toLocaleDateString() %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.site %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.seller %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.purchaser %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.mobileNo %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.area %> sq. ft.
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.rate %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.totalAmount %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.groupCommission %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <%= entry.balanceAmount %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } else { %>
+                        <p>No data found.</p>
+                        <% } %>
+    </div>
+
+    <script>
+        // Update Download Button with Current Filters
+        document.getElementById('filterForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            const search = document.getElementById('searchBar').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // Construct query parameters for filtering and downloading
+            const queryParams = new URLSearchParams({ search, startDate, endDate }).toString();
+
+            // // Update the download button's href dynamically
+            // const downloadBtn = document.getElementById('downloadBtn');
+            // downloadBtn.href = `/generate-report?${queryParams}`;
+
+
+            // Submit the form to apply filters
+            this.submit();
+        });
+
+
+        function updateDownloadHref() {
+            const search = document.getElementById('searchBar').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            const queryParams = new URLSearchParams({ search, startDate, endDate }).toString();
+            document.getElementById('downloadBtn').href = `/generate-report?${queryParams}`;
+        }
+
+    </script>
+</body>
+
+</html>

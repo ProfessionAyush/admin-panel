@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script> function addExpenseRow(type) { const container = document.getElementById(`${type}Container`); const row = document.createElement('div'); row.className = "flex space-x-2 mb-2"; row.innerHTML = ` <input type="date" name="${type}[date][]" class="border border-gray-300 p-2 rounded w-1/2" required> <input type="number" name="${type}[money][]" class="border border-gray-300 p-2 rounded w-1/2" required> <button type="button" class="text-red-500 font-bold" onclick="this.parentElement.remove()">X</button> `; container.appendChild(row); } </script>
+</head>
+
+<body class="bg-gray-100 flex h-screen">
+    <%- include('partials/navbar') %>
+        <div class=" flex-1 container mx-auto p-8">
+            <div class="flex justify-between items-center">
+                <button class="menu-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="close-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <h2 class="text-2xl font-bold mb-4">Add Data</h2>
+        <form action="/add-data" method="POST">
+            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="site">Site</label> <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="site" type="text" name="site" required> </div>
+            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="dateOfRegistration">Date of
+                    Registration</label> <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="dateOfRegistration" type="date" name="dateOfRegistration" required> </div>
+            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="area">Area</label> <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="area" type="number" name="area" required> </div>
+            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="rate">Rate</label> <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="rate" type="number" name="rate" required> </div>
+            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="totalAmount">Total Amount</label>
+                <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="totalAmount" type="number" name="totalAmount" readonly> </div>
+            <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="registryExpenses">Registry
+                    Expenses</label> <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="registryExpenses" type="number" name="registryExpenses" required> </div>
+            <div class="flex items-center justify-between"> <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit"> Add Data </button> </div>
+        </form>
+        
+        </div>
+        <script>
+           const areaInput = document.getElementById('area');
+            const rateInput = document.getElementById('rate');
+             const totalAmountInput = document.getElementById('totalAmount'); 
+             function calculateTotalAmount() { const area = parseFloat(areaInput.value) || 0;
+                 const rate = parseFloat(rateInput.value) || 0; 
+                 totalAmountInput.value = area * rate;
+                 } 
+                 areaInput.addEventListener('input', calculateTotalAmount);
+                  rateInput.addEventListener('input', calculateTotalAmount);
+
+
+            function click() {
+                document.querySelector('.menu-button').addEventListener('click', () => {
+                    document.querySelector('nav').classList.toggle('-translate-x-full');
+                    document.querySelector('.menu-button').classList.toggle('hidden');
+                    document.querySelector('.close-button').classList.toggle('hidden');
+                });
+
+                document.querySelector('.close-button').addEventListener('click', () => {
+                    document.querySelector('nav').classList.toggle('-translate-x-full');
+                    document.querySelector('.menu-button').classList.toggle('hidden');
+                    document.querySelector('.close-button').classList.toggle('hidden');
+                });
+            }
+            click();
+
+
+            function addDevelopmentExpense() {
+                const container = document.getElementById('developmentExpensesContainer');
+                const div = document.createElement('div');
+                div.className = 'mb-2';
+                div.innerHTML = `
+                <input class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="date" name="developmentExpenses[][date]" placeholder="Date">
+                <input class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="developmentExpenses[][expense]" placeholder="Expense">
+            `;
+                container.appendChild(div);
+            }
+
+            function addIncomeTaxExpense() {
+                const container = document.getElementById('incomeTaxExpensesContainer');
+                const div = document.createElement('div');
+                div.className = 'mb-2';
+                div.innerHTML = `
+                <input class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="date" name="incomeTaxExpenses[][date]" placeholder="Date">
+                <input class="shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="incomeTaxExpenses[][expense]" placeholder="Expense">
+            `;
+                container.appendChild(div);
+            }
+        </script>
+</body>
+
+</html>

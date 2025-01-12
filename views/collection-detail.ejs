@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            font-size: 10px;
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ccc;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .wrap {
+            word-break: break-word;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .btn-download {
+            background-color: #4caf50;
+            color: white;
+            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-download:hover {
+            background-color: #45a049;
+        }
+
+        .summary p {
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .summary strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold mb-4">
+                <%= siteDetails.site %> - Collection Detail
+            </h2>
+            <button id="downloadBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"><i
+                    class="fas fa-download"></i></button>
+        </div>
+        <div class="summary">
+            <p><strong>Total Area:</strong> <%= siteDetails.totalArea %> sq. ft.</p>
+            <p><strong>Rate:</strong> ₹<%= siteDetails.rate %></p>
+            <p><strong>Total Purchase Amount:</strong> ₹<%= siteDetails.totalPurchaseAmount %></p>
+            <p><strong>Total Plots:</strong> <%= siteDetails.totalPlots %></p>
+            <p><strong>Available Area:</strong> <%= siteDetails.availableArea %> sq. ft.</p>
+            <p><strong>Total Selling Amount:</strong> ₹<%= siteDetails.totalSellingAmount %></p>
+            <p><strong>Profit:</strong> ₹<%= siteDetails.profit %></p>
+        </div>
+
+        <h4 class="text-md font-bold mt-6">Expenses</h4>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% siteDetails.expenses.forEach(function(expense) { %>
+                        <tr>
+                            <td><%= new Date(expense.date).toISOString().split('T')[0] %></td>
+                            <td class="wrap"><%= expense.type %></td>
+                            <td>₹<%= expense.amount %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+        <h4 class="text-md font-bold mt-6">Registry Entries</h4>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gata No</th>
+                        <th>Site</th>
+                        <th>Seller</th>
+                        <th>Purchaser</th>
+                        <th>Mobile No</th>
+                        <th>Area</th>
+                        <th>Rate</th>
+                        <th>Total Amt.</th>
+                        <th>Group Com.</th>
+                        <th>Balance Amount</th>
+                        <th>Gov. Value</th>
+                        <th>Market Value</th>
+                        <th>Plot No.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% siteDetails.registryEntries.forEach(function(entry) { %>
+                        <tr>
+                            <td><%= entry.gataNo %></td>
+                            <td class="wrap"><%= entry.site %></td>
+                            <td class="wrap"><%= entry.seller %></td>
+                            <td class="wrap"><%= entry.purchaser %></td>
+                            <td class="wrap"><%= entry.mobileNo %></td>
+                            <td><%= entry.area %> sq. ft.</td>
+                            <td>₹<%= entry.rate %></td>
+                            <td>₹<%= entry.totalAmount %></td>
+                            <td>₹<%= entry.groupCommision %></td>
+                            <td>₹<%= entry.balanceAmount %></td>
+                            <td>₹<%= entry.govValue %></td>
+                            <td>₹<%= entry.marketingValue %></td>
+                            <td><%= entry.plotNumber %></td>
+                        </tr>
+                    <% }); %>
+                    <tr class="font-bold bg-gray-50">
+                        <td colspan="8" class="text-right">Total</td>
+                        <td>₹<%= siteDetails.totalGroupCommision %></td>
+                        <td>₹<%= siteDetails.totalBalanceAmount %></td>
+                        <td>₹<%= siteDetails.totalGovValue %></td>
+                        <td>₹<%= siteDetails.totalMarketingValue %></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            const url = `/generate-site-report?siteName=${encodeURIComponent('<%= siteDetails.site %>')}`;
+            window.location.href = url;
+        });
+    </script>
+</body>
+
+</html>

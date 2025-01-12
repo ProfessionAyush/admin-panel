@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Registry Entry</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+
+<body class="bg-gray-100 flex h-screen">
+    <%- include('partials/navbar') %>
+        <div class="flex-1 p-10">
+            <div class="flex justify-between items-center">
+                <button class="menu-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="close-button bg-blue-500 text-white p-2 rounded-md md:hidden focus:outline-none hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex1 container mx-auto p-8">
+                <h2 class="text-2xl font-bold mb-4">Edit Registry Entry</h2>
+                <form action="/edit-registry-entry/<%= entry._id %>" method="POST" enctype="multipart/form-data">
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="gataNo">Gata
+                            No</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="gataNo" type="number" name="gataNo" value="<%= entry.gataNo %>" required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="site">Site</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="site" type="text" name="site" value="<%= entry.site %>" required>
+                    </div>
+
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="dateOfRegistration">Date of Registration</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="dateOfRegistration" type="date" name="dateOfRegistration"
+                            value="<%= entry.dateOfRegistration.toISOString().split('T')[0] %>" required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="seller">Seller</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="seller" type="text" name="seller" value="<%= entry.seller %>" required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="purchaser">Purchaser</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="purchaser" type="text" name="purchaser" value="<%= entry.purchaser %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="mobileNo">Mobile
+                            No</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="mobileNo" type="text" name="mobileNo" value="<%= entry.mobileNo %>" required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="area">Area</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="area" type="number" name="area" value="<%= entry.area %>" required>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="rate">Rate</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="rate" type="number" name="rate" value="<%= entry.rate %>" required>
+                    </div>
+                    <div> <label class="block text-gray-700">Government Value</label> <input type="number"
+                            name="govValue" value="<%= entry.govValue %>"
+                            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div> <label class="block text-gray-700">Marketing Value</label> <input type="number"
+                            name="marketingValue" value="<%= entry.marketingValue %>"
+                            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div> <label class="block text-gray-700">Plot Number (Optional)</label> <input type="number"
+                            name="plotNumber" value="<%= entry.plotNumber %>"
+                            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="totalAmount">Total
+                            Amount</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="totalAmount" type="number" name="totalAmount" value="<%= entry.totalAmount %>" readonly>
+                    </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="groupCommision">Group
+                            Commision</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="groupCommision" type="number" name="groupCommision" value="<%= entry.groupCommision %>"
+                            required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="balanceAmount">Balance
+                            Amount</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="balanceAmount" type="number" name="balanceAmount" value="<%= entry.balanceAmount %>"
+                            readonly> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="mediator">Mediator</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="mediator" type="text" name="mediator" value="<%= entry.mediator %>" required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="mediatorCommision">Mediator
+                            Commision</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="mediatorCommision" type="number" name="mediatorCommision"
+                            value="<%= entry.mediatorCommision %>" required> </div>
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2"
+                            for="balanceGroupCommisionAmount">Balance Group Commision Amount</label> <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="balanceGroupCommisionAmount" type="number" name="balanceGroupCommisionAmount"
+                            value="<%= entry.balanceGroupCommisionAmount %>" readonly> </div>
+                    <!-- Image Upload Section -->
+                    <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="images">Upload
+                            Images</label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="images" type="file" name="images" multiple>
+                    </div> <!-- Display Existing Images -->
+                    <div class="mb-4">
+
+                    </div>
+                    <div class="flex items-center justify-between"> <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit"> Update Entry </button> </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            const areaInput = document.getElementById('area');
+            const rateInput = document.getElementById('rate');
+            const totalAmountInput = document.getElementById('totalAmount');
+            const groupCommissionInput = document.getElementById('groupCommission');
+            const balanceAmountInput = document.getElementById('balanceAmount');
+            const mediatorCommissionInput = document.getElementById('mediatorCommission');
+            const profitValueInput = document.getElementById('profitValue');
+
+            function calculateTotalAmount() {
+                const area = parseFloat(areaInput.value) || 0;
+                const rate = parseFloat(rateInput.value) || 0;
+                totalAmountInput.value = area * rate;
+            }
+            areaInput.addEventListener('input', calculateTotalAmount);
+            rateInput.addEventListener('input', calculateTotalAmount);
+
+
+            function calculateBalanceAmount() {
+                const totalAmount = parseFloat(totalAmountInput.value) || 0;
+                const groupCommission = parseFloat(groupCommissionInput.value) || 0;
+                balanceAmountInput.value = totalAmount - groupCommission;
+            }
+            groupCommissionInput.addEventListener('input', calculateBalanceAmount);
+
+            function calculateProfitValue() {
+                const groupCommission = parseFloat(groupCommissionInput.value) || 0;
+                const mediatorCommission = parseFloat(mediatorCommissionInput.value) || 0;
+                profitValueInput.value = groupCommission - mediatorCommission;
+            }
+            mediatorCommission.addEventListener('input', calculateProfitValue);
+
+            document.querySelector('.menu-button').addEventListener('click', () => {
+                document.querySelector('nav').classList.toggle('-translate-x-full');
+                document.querySelector('.menu-button').classList.toggle('hidden');
+                document.querySelector('.close-button').classList.toggle('hidden');
+            });
+
+            document.querySelector('.close-button').addEventListener('click', () => {
+                document.querySelector('nav').classList.toggle('-translate-x-full');
+                document.querySelector('.menu-button').classList.toggle('hidden');
+                document.querySelector('.close-button').classList.toggle('hidden');
+            });
+        </script>
+</body>
+
+</html>
