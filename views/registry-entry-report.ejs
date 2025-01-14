@@ -11,12 +11,67 @@
             width: 100%;
             table-layout: fixed;
             word-wrap: break-word;
+            border-collapse: collapse;
         }
 
         th,
         td {
             font-size: 12px;
             padding: 4px;
+            border: 1px solid #ccc;
+            text-align: left;
+            /* Ensure text align is the same for headings and cells */
+        }
+
+        .wrap {
+            word-break: break-word;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .btn-download {
+            background-color: #4caf50;
+            color: white;
+            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-download:hover {
+            background-color: #45a049;
+        }
+
+        .summary p {
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .summary strong {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -37,107 +92,126 @@
                 <button type="submit"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
             </form>
-
+            <div class="mt-6"> <button id="togglePart2Btn"
+                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold mb-4 py-2 px-4 rounded">Show Mediator
+                    Details</button> </div>
             <!-- Download Button -->
             <a id="downloadBtn" href="/generate-report"
-                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 mb-4 px-4 rounded"
                 onclick="updateDownloadHref()">
                 Download PDF
             </a>
 
             <% } %>
 
-                <!-- Data Table -->
-                <% if (data.length> 0) { %>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gata No</th>
+                                <th>Date of Registration</th>
+                                <th>Site</th>
+                                <th>Seller</th>
+                                <th>Purchaser</th>
+                                <th>Mobile No</th>
+                                <th>Area</th>
+                                <th>Rate</th>
+                                <th>Total Amt.</th>
+                                <th>Group Com.</th>
+                                <th>Balance Amt</th>
+                                <th>Gov. Value</th>
+                                <th>Market Value</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(function(entry) { %>
                                 <tr>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Serial No</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Gata No</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Date of Registration</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Site</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Seller</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Purchaser</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Mobile No</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Area</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Rate</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Total Amount</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Group Commission</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Balance Amount</th>
+                                    <td>
+                                        <%= entry.gataNo %>
+                                    </td>
+                                
+                                    <td>
+                                        <%= new Date(entry.dateOfRegistration).toLocaleDateString() %>
+                                    </td>
+                                    <td class="wrap">
+                                        <%= entry.site %>
+                                    </td>
+                                    <td class="wrap">
+                                        <%= entry.seller %>
+                                    </td>
+                                    <td class="wrap">
+                                        <%= entry.purchaser %>
+                                    </td>
+                                    <td class="wrap">
+                                        <%= entry.mobileNo %>
+                                    </td>
+                                    <td>
+                                        <%= entry.area %> sq. ft.
+                                    </td>
+                                    <td>₹<%= entry.rate %>
+                                    </td>
+                                    <td>₹<%= entry.totalAmount %>
+                                    </td>
+                                    <td>₹<%= entry.groupCommision %>
+                                    </td>
+                                    <td>₹<%= entry.balanceAmount %>
+                                    </td>
+                                    <td>₹<%= entry.govValue %>
+                                    </td>
+                                    <td>₹<%= entry.marketingValue %>
+                                    </td>
+
                                 </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <% data.forEach(function(entry, index) { %>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= index + 1 %>
+                                <% }); %>
+                                    <tr class="font-bold bg-gray-50">
+                                        <td colspan="8" class="text-right">Total</td>
+                                        <td>₹<%= totalGroupCommision %>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.gataNo %>
+                                        <td>₹<%= totalBalanceAmount %>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= new Date(entry.dateOfRegistration).toLocaleDateString() %>
+                                        <td>₹<%= totalGovValue %>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.site %>
+                                        <td>₹<%= totalMarketingValue %>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.seller %>
+                                        <td></td>
+                                    </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h1>Mediator part </h1>
+                <div id="part2" class="hidden mt-6 table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mediator</th>
+                                <th>Mediator Commision</th>
+                                <th>Balance Group Commision Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(function(entry) { %>
+                                <tr>
+                                    <td class="wrap">
+                                        <%= entry.mediator %>
+                                    </td>
+                                    <td>₹<%= entry.mediatorCommision %>
+                                    </td>
+                                    <td>₹<%= entry.balanceGroupCommisionAmount %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                                    <tr class="font-bold bg-gray-50">
+                                        <td colspan="1" class="text-right">Total</td>
+                                        <td>₹<%= totalMediatorCommision %>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.purchaser %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.mobileNo %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.area %> sq. ft.
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.rate %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.totalAmount %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.groupCommission %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <%= entry.balanceAmount %>
+                                        <td>₹<%= totalBalanceGroupCommisionAmount %>
                                         </td>
                                     </tr>
-                                    <% }); %>
-                            </tbody>
-                        </table>
-                    </div>
-                    <% } else { %>
-                        <p>No data found.</p>
-                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
     </div>
 
     <script>
@@ -169,6 +243,17 @@
             const queryParams = new URLSearchParams({ search, startDate, endDate }).toString();
             document.getElementById('downloadBtn').href = `/generate-report?${queryParams}`;
         }
+
+        // Toggle Show/Hide Mediator Details 
+        document.getElementById('togglePart2Btn').addEventListener('click', function () {
+            const part2 = document.getElementById('part2');
+            if (part2.classList.contains('hidden')) {
+                part2.classList.remove('hidden');
+                this.textContent = 'Hide Mediator Details';
+            } else {
+                part2.classList.add('hidden'); this.textContent = 'Show Mediator Details';
+            }
+        });
 
     </script>
 </body>

@@ -559,11 +559,13 @@ router.post('/remove-image/:id', isAdmin, async (req, res) => {
 
 
 // Route for Registry Entry Report Page
-router.get('/registry-entry-report', isAdmin, async (req, res) => {
+// Route for Registry Entry Report Page 
+router.get('/registry-entry-report', async (req, res) => {
   try {
-    const { search: searchQuery, startDate, endDate, isPDF } = req.query;
+    const searchQuery = req.query.search;
 
-    // Build filter for MongoDB query
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
     let filter = {};
     if (searchQuery) {
       filter["$or"] = [
@@ -572,25 +574,37 @@ router.get('/registry-entry-report', isAdmin, async (req, res) => {
         { "purchaser": { $regex: searchQuery, $options: 'i' } },
         { "mobileNo": { $regex: searchQuery, $options: 'i' } },
       ];
-    }
-    if (startDate && endDate) {
+    } if (startDate && endDate) {
       filter.dateOfRegistration = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate),
+        $gte: new Date(startDate), $lte: new Date(endDate)
       };
-    }
+    } const results = await RegistryEntry.find(filter).sort({ dateOfRegistration: -1 });
 
-    // Fetch filtered data from MongoDB
-    const results = await RegistryEntry.find(filter).sort({ dateOfRegistration: -1 });
+    // Calculate total values 
+    const totalValues = results.reduce((totals, entry) => {
+      totals.totalGroupCommision += entry.groupCommision; totals.totalBalanceAmount += entry.balanceAmount;
+      totals.totalGovValue += entry.govValue;
+      totals.totalMarketingValue += entry.marketingValue; totals.totalMediatorCommision += entry.mediatorCommision; totals.totalBalanceGroupCommisionAmount += entry.balanceGroupCommisionAmount; return totals;
+    }, {
+      totalGroupCommision: 0,
+      totalBalanceAmount: 0,
+      totalGovValue: 0,
+      totalMarketingValue: 0,
+      totalMediatorCommision: 0,
+      totalBalanceGroupCommisionAmount: 0
 
-    // Render the appropriate view
-    res.render('registry-entry-report', { 
-      data: results, 
-      isPDF: isPDF === 'true' 
+    }); res.render('registry-entry-report', {
+      data: results,
+      totalGroupCommision: totalValues.totalGroupCommision,
+      totalBalanceAmount: totalValues.totalBalanceAmount,
+      totalGovValue: totalValues.totalGovValue,
+      totalMarketingValue: totalValues.totalMarketingValue,
+      totalMediatorCommision: totalValues.totalMediatorCommision,
+      totalBalanceGroupCommisionAmount: totalValues.totalBalanceGroupCommisionAmount,
+      isPDF: false
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+    console.error(err); res.status(500).send('Server Error');
   }
 });
 
