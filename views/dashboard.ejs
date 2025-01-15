@@ -33,9 +33,6 @@
                             <h3 class="text-lg font-bold mb-2">
                                 <%= site.site %>
                             </h3>
-                            <p><strong>Total Area:</strong>
-                                <%= site.totalArea %> sq. ft.
-                            </p>
                             <p><strong>Rate:</strong> ₹<%= site.rate %>
                             </p>
                             <h4 class="text-md font-bold mt-4">Expenses:</h4>
@@ -43,15 +40,21 @@
                                 <% site.expenses.forEach(function(expense) { %>
                                     <li>
                                         <%= expense.date.toISOString().split('T')[0] %>: ₹<%= expense.amount %> (<%=
-                                                    expense.type %>)
+                                        expense.type %>)
                                     </li>
                                     <% }); %>
-                            </ul>
-                            <p class="mt-4"><strong>Total Purchase Amount:</strong> ₹<%= site.totalPurchaseAmount %>
-                            </p>
-                            <p><strong>Total Plots:</strong>
-                                <%= site.totalPlots %>
-                            </p>
+                                </ul>
+                                <p class="mt-4"><strong>Total Purchase Amount:</strong> ₹<%= site.totalPurchaseAmount %>
+                                </p>
+                                <p><strong>Total Plots:</strong>
+                                    <%= site.totalPlots %>
+                                </p>
+                                <p><strong>Total Area:</strong>
+                                    <%= site.totalArea %> sq. ft.
+                                </p>
+                                <p><strong>Total selling Area:</strong>
+                                    <%= site.totalAreaSold %> sq. ft.
+                                </p>
                             <p><strong>Available Area:</strong>
                                 <%= site.availableArea %> sq. ft.
                             </p>

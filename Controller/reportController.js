@@ -36,9 +36,7 @@ const generateReport = async (req, res) => {
     await page.pdf({
       path: pdfPath,
       printBackground: true,
-      format: 'A3', // Adjusted for larger tables
-      landscape: true, // Horizontal layout
-      scale: 0.8, // Scale down content
+      format: 'A4', // Adjusted for lar
     });
 
     await browser.close();
@@ -63,9 +61,6 @@ const generateReport = async (req, res) => {
     res.status(500).send('Error generating report');
   }
 };
-
-
-
 
 
 const generateSiteReport = async (req, res) => {
@@ -133,9 +128,7 @@ const generateDetailsPDF = async (req, res) => {
     await page.pdf({
       path: pdfPath,
       printBackground: true,
-      format: 'A3', // Adjusted for larger tables
-      landscape: true, // Horizontal layout
-      scale: 0.8, // Scale down content
+      format: 'A4', // Adjusted for lar
     });
 
     await browser.close();

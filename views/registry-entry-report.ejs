@@ -114,8 +114,8 @@
                                 <th>Seller</th>
                                 <th>Purchaser</th>
                                 <th>Mobile No</th>
-                                <th>Area</th>
                                 <th>Rate</th>
+                                <th>Area</th>
                                 <th>Total Amt.</th>
                                 <th>Group Com.</th>
                                 <th>Balance Amt</th>
@@ -146,10 +146,11 @@
                                     <td class="wrap">
                                         <%= entry.mobileNo %>
                                     </td>
+                                   
+                                    <td>₹<%= entry.rate %>
+                                    </td>
                                     <td>
                                         <%= entry.area %> sq. ft.
-                                    </td>
-                                    <td>₹<%= entry.rate %>
                                     </td>
                                     <td>₹<%= entry.totalAmount %>
                                     </td>
@@ -165,7 +166,11 @@
                                 </tr>
                                 <% }); %>
                                     <tr class="font-bold bg-gray-50">
-                                        <td colspan="8" class="text-right">Total</td>
+                                        <td colspan="7" class="text-right">Total</td>
+                                        <td><%= totalArea %> sq.ft 
+                                        </td>
+                                        <td>₹<%= totalAmount %>
+                                        </td>
                                         <td>₹<%= totalGroupCommision %>
                                         </td>
                                         <td>₹<%= totalBalanceAmount %>
@@ -174,7 +179,7 @@
                                         </td>
                                         <td>₹<%= totalMarketingValue %>
                                         </td>
-                                        <td></td>
+                                        
                                     </tr>
                         </tbody>
                     </table>

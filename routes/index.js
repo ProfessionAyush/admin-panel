@@ -62,11 +62,13 @@ router.get('/dashboard', isAdmin, async (req, res) => {
       const siteEntries = registryEntries.filter(entry => entry.site === site.site);
       const totalPlots = siteEntries.length;
       const totalAreaSold = siteEntries.reduce((acc, entry) => acc + entry.area, 0);
-      const availableArea = site.area - totalAreaSold; const totalBalanceAmount = siteEntries.reduce((acc, entry) => acc + entry.balanceAmount, 0);
+      const availableArea = site.area - totalAreaSold;
+     const totalBalanceAmount = siteEntries.reduce((acc, entry) => acc + entry.balanceAmount, 0);
       const totalSellingAmount = totalBalanceAmount + (availableArea * site.rate);
       const totalExpenses = site.registryExpenses + site.developmentExpenses.reduce((acc, expense) => acc + expense.amount, 0) + site.incomeTaxExpenses.reduce((acc, expense) => acc + expense.amount, 0);
       const totalPurchaseAmount = site.totalAmount + totalExpenses;
-      const profit = totalSellingAmount - totalPurchaseAmount; sitesWithDetails.push({
+      const profit = totalSellingAmount - totalPurchaseAmount;
+       sitesWithDetails.push({
         site: site.site,
         totalArea: site.area,
         rate: site.rate,
@@ -74,6 +76,7 @@ router.get('/dashboard', isAdmin, async (req, res) => {
         totalPurchaseAmount,
         totalPlots,
         availableArea,
+        totalAreaSold,
         totalSellingAmount,
         profit
       });
@@ -96,26 +99,35 @@ router.get('/site-details/:siteName', isAdmin, async (req, res) => {
     }
     const totalPlots = siteEntries.length;
     const totalAreaSold = siteEntries.reduce((acc, entry) => acc + entry.area, 0);
-    const availableArea = site.area - totalAreaSold; const totalBalanceAmount = siteEntries.reduce((acc, entry) => acc + entry.balanceAmount, 0);
+    const availableArea = site.area - totalAreaSold;
+      const totalBalanceAmount = siteEntries.reduce((acc, entry) => acc + entry.balanceAmount, 0);
+      const totalsiteArea = siteEntries.reduce((acc, entry) => acc + entry.area, 0);
     const totalSellingAmount = totalBalanceAmount + (availableArea * site.rate);
     const totalExpenses = site.registryExpenses + site.developmentExpenses.reduce((acc, expense) => acc + expense.amount, 0) + site.incomeTaxExpenses.reduce((acc, expense) => acc + expense.amount, 0);
     const totalPurchaseAmount = site.totalAmount + totalExpenses;
     const profit = totalSellingAmount - totalPurchaseAmount;
     const totalGovValue = siteEntries.reduce((acc, entry) => acc + entry.govValue, 0);
+    const totalAmount = siteEntries.reduce((acc, entry) => acc + entry.totalAmount, 0);
     const totalMarketingValue = siteEntries.reduce((acc, entry) => acc + entry.marketingValue, 0);
     const totalGroupCommision = siteEntries.reduce((acc, entry) => acc + entry.groupCommision, 0);
     const siteDetails = {
       site: site.site,
       totalArea: site.area,
-      rate: site.rate, expenses: site.developmentExpenses.concat(site.incomeTaxExpenses),
+      rate: site.rate,
+       expenses: site.developmentExpenses.concat(site.incomeTaxExpenses),
       totalPurchaseAmount,
+      totalAreaSold,
       totalPlots,
       availableArea,
       totalSellingAmount,
       profit,
+     
       registryEntries: siteEntries,
       totalGovValue,
       totalMarketingValue,
+      totalAmount,
+
+      totalsiteArea,
       totalGroupCommision,
       totalBalanceAmount
     }; res.render('collection-detail', { siteDetails });
@@ -582,20 +594,31 @@ router.get('/registry-entry-report', async (req, res) => {
 
     // Calculate total values 
     const totalValues = results.reduce((totals, entry) => {
-      totals.totalGroupCommision += entry.groupCommision; totals.totalBalanceAmount += entry.balanceAmount;
+      totals.totalGroupCommision += entry.groupCommision;
+      totals.totalArea += entry.area;
+      totals.totalAmount += entry.totalAmount;
+       totals.totalBalanceAmount += entry.balanceAmount;
       totals.totalGovValue += entry.govValue;
-      totals.totalMarketingValue += entry.marketingValue; totals.totalMediatorCommision += entry.mediatorCommision; totals.totalBalanceGroupCommisionAmount += entry.balanceGroupCommisionAmount; return totals;
+      totals.totalMarketingValue += entry.marketingValue;
+       totals.totalMediatorCommision += entry.mediatorCommision; 
+       totals.totalBalanceGroupCommisionAmount += entry.balanceGroupCommisionAmount; 
+       return totals;
     }, {
       totalGroupCommision: 0,
+      totalArea: 0,
+      totalAmount: 0,
       totalBalanceAmount: 0,
       totalGovValue: 0,
       totalMarketingValue: 0,
       totalMediatorCommision: 0,
       totalBalanceGroupCommisionAmount: 0
 
-    }); res.render('registry-entry-report', {
+    });
+     res.render('registry-entry-report', {
       data: results,
       totalGroupCommision: totalValues.totalGroupCommision,
+      totalArea: totalValues.totalArea,
+      totalAmount: totalValues.totalAmount,
       totalBalanceAmount: totalValues.totalBalanceAmount,
       totalGovValue: totalValues.totalGovValue,
       totalMarketingValue: totalValues.totalMarketingValue,

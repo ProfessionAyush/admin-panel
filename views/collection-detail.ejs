@@ -101,10 +101,12 @@
         </div>
         <div class="summary">
             <p><strong>Total Area:</strong> <%= siteDetails.totalArea %> sq. ft.</p>
-            <p><strong>Rate:</strong> ₹<%= siteDetails.rate %></p>
-            <p><strong>Total Purchase Amount:</strong> ₹<%= siteDetails.totalPurchaseAmount %></p>
-            <p><strong>Total Plots:</strong> <%= siteDetails.totalPlots %></p>
+            <p><strong>Total Selling Area:</strong> <%= siteDetails.totalAreaSold %> sq. ft.</p>
             <p><strong>Available Area:</strong> <%= siteDetails.availableArea %> sq. ft.</p>
+            <p><strong>Rate:</strong> ₹<%= siteDetails.rate %></p>
+            <p><strong>Total Plots:</strong> <%= siteDetails.totalPlots %></p>
+            <p><strong>Total Purchase Amount:</strong> ₹<%= siteDetails.totalPurchaseAmount %></p>
+
             <p><strong>Total Selling Amount:</strong> ₹<%= siteDetails.totalSellingAmount %></p>
             <p><strong>Profit:</strong> ₹<%= siteDetails.profit %></p>
         </div>
@@ -141,8 +143,8 @@
                         <th>Seller</th>
                         <th>Purchaser</th>
                         <th>Mobile No</th>
-                        <th>Area</th>
                         <th>Rate</th>
+                        <th>Area</th>
                         <th>Total Amt.</th>
                         <th>Group Com.</th>
                         <th>Balance Amount</th>
@@ -159,8 +161,8 @@
                             <td class="wrap"><%= entry.seller %></td>
                             <td class="wrap"><%= entry.purchaser %></td>
                             <td class="wrap"><%= entry.mobileNo %></td>
-                            <td><%= entry.area %> sq. ft.</td>
                             <td>₹<%= entry.rate %></td>
+                            <td><%= entry.area %> sq. ft.</td>
                             <td>₹<%= entry.totalAmount %></td>
                             <td>₹<%= entry.groupCommision %></td>
                             <td>₹<%= entry.balanceAmount %></td>
@@ -170,7 +172,9 @@
                         </tr>
                     <% }); %>
                     <tr class="font-bold bg-gray-50">
-                        <td colspan="8" class="text-right">Total</td>
+                        <td colspan="6" class="text-right">Total</td>
+                        <td><%= siteDetails.totalsiteArea %> sq. ft</td>
+                        <td>₹<%= siteDetails.totalAmount %></td>
                         <td>₹<%= siteDetails.totalGroupCommision %></td>
                         <td>₹<%= siteDetails.totalBalanceAmount %></td>
                         <td>₹<%= siteDetails.totalGovValue %></td>
